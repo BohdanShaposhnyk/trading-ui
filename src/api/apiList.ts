@@ -6,6 +6,7 @@ export const API_URL = {
 export const apiList = {
     midgard: {
         balance: `${API_URL.midgard}/v2/balance/`,
+        pools: `${API_URL.midgard}/v2/pools`,
     },
     thornode: {
         balances: `${API_URL.thornode}/cosmos/bank/v1beta1/balances/`,

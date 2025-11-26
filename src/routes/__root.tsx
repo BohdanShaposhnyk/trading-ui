@@ -11,10 +11,10 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <WalletProvider>
-      <div className="fixed top-4 right-4 z-50">
+      <div className="fixed top-8 right-8 z-50">
         <KeplrButton />
       </div>
-      <div className="p-4 flex gap-2 text-lg">
+      <div className="p-8 flex gap-2 text-lg">
         <Link
           to="/"
           className="text-gray-400 hover:text-gray-200"
