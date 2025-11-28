@@ -3,30 +3,19 @@ import {
     useReactTable,
     getCoreRowModel,
     flexRender,
-    createColumnHelper,
-    type ColumnDef,
 } from '@tanstack/react-table';
+
 import { useBalances } from '../../hooks/useBalances';
 import { useWallet } from '../../state/keplrWallet';
-import { TokenLogo } from '../../components/TokenLogo';
-import { TokenTicker } from '../../components/TokenTicker';
-import { TokenPrice } from '../../components/TokenPrice';
 import { usePrices } from '../../hooks/usePrices';
-import { Value } from './balance/Value';
-
-type BalanceRow = {
-    denom: string;
-    amount: number;
-    amountRaw: string;
-};
-
-const columnHelper = createColumnHelper<BalanceRow>();
+import { HideSmall } from './HideSmall';
+import { useBalancesTableColumns } from './hooks/useBalancesColumns';
 
 export const Balances = () => {
     const { connected } = useWallet();
     const { data: coins, isLoading, isError } = useBalances();
     const { data: prices } = usePrices();
-    const [hideSmallBalances, setHideSmallBalances] = useState(false);
+    const [hideSmallBalances, setHideSmallBalances] = useState(true);
 
     // Filter data before passing to table to avoid constant rerenders
     const filteredCoins = useMemo(() => {
@@ -38,43 +27,7 @@ export const Balances = () => {
         });
     }, [coins, prices, hideSmallBalances]);
 
-    const columns = useMemo(
-        () => [
-            columnHelper.accessor('denom', {
-                header: 'Token',
-                cell: (info) => (
-                    <div className="flex items-center gap-2">
-                        <TokenLogo ticker={info.getValue()} />
-                        <TokenTicker ticker={info.getValue()} />
-                    </div>
-                ),
-            }),
-            columnHelper.accessor('amount', {
-                header: 'Amount',
-                cell: (info) => (
-                    <span className="text-right">{Number(info.getValue()).toFixed(3)}</span>
-                ),
-            }),
-            columnHelper.display({
-                id: 'value',
-                header: 'Value',
-                cell: (info) => (
-                    <Value
-                        price={prices?.[info.row.original.denom] ?? '0'}
-                        amount={info.row.original.amount}
-                    />
-                ),
-            }),
-            columnHelper.display({
-                id: 'price',
-                header: 'Price',
-                cell: (info) => (
-                    <TokenPrice price={prices?.[info.row.original.denom] ?? '0'} />
-                ),
-            }),
-        ] as ColumnDef<BalanceRow>[],
-        [prices]
-    );
+    const columns = useBalancesTableColumns(prices)
 
     const table = useReactTable({
         data: filteredCoins,
@@ -89,17 +42,7 @@ export const Balances = () => {
 
     return (
         <div className="w-full">
-            <div className="mb-4 flex items-center gap-2">
-                <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                        type="checkbox"
-                        checked={hideSmallBalances}
-                        onChange={(e) => setHideSmallBalances(e.target.checked)}
-                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className="text-sm text-gray-500">Hide small balances (&lt; $0.001)</span>
-                </label>
-            </div>
+            <HideSmall hideSmallBalances={hideSmallBalances} setHideSmallBalances={setHideSmallBalances} />
             <div className="w-full overflow-x-auto">
                 <table className="w-full border-collapse">
                     <thead>
@@ -120,7 +63,7 @@ export const Balances = () => {
                     </thead>
                     <tbody>
                         {table.getRowModel().rows.map((row) => (
-                            <tr key={row.id} className="hover:bg-gray-800">
+                            <tr key={row.id} className="hover:bg-foreground/5">
                                 {row.getVisibleCells().map((cell) => (
                                     <td key={cell.id} className="px-4 py-3">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

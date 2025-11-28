@@ -1,9 +1,80 @@
 @import "tailwindcss";
 
+@theme {
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
+    --color-card: hsl(var(--card));
+    --color-card-foreground: hsl(var(--card-foreground));
+    --color-popover: hsl(var(--popover));
+    --color-popover-foreground: hsl(var(--popover-foreground));
+    --color-primary: hsl(var(--primary));
+    --color-primary-foreground: hsl(var(--primary-foreground));
+    --color-secondary: hsl(var(--secondary));
+    --color-secondary-foreground: hsl(var(--secondary-foreground));
+    --color-muted: hsl(var(--muted));
+    --color-muted-foreground: hsl(var(--muted-foreground));
+    --color-accent: hsl(var(--accent));
+    --color-accent-foreground: hsl(var(--accent-foreground));
+    --color-destructive: hsl(var(--destructive));
+    --color-destructive-foreground: hsl(var(--destructive-foreground));
+    --color-border: hsl(var(--border));
+    --color-input: hsl(var(--input));
+    --color-ring: hsl(var(--ring));
+}
+
+@layer base {
+    :root {
+        --background: 0 0% 95%;
+        /* gray-50 equivalent */
+        --foreground: 222.2 84% 10%;
+        --card: 0 0% 90%;
+        --card-foreground: 222.2 84% 10%;
+        --popover: 0 0% 90%;
+        --popover-foreground: 222.2 84% 10%;
+        --primary: 222.2 47.4% 15%;
+        --primary-foreground: 210 40% 90%;
+        --secondary: 210 40% 90%;
+        --secondary-foreground: 222.2 47.4% 15%;
+        --muted: 210 40% 90%;
+        --muted-foreground: 215.4 16.3% 60%;
+        --accent: 210 40% 90%;
+        --accent-foreground: 222.2 47.4% 15%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 95%;
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 222.2 84% 4.9%;
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 222.2 84% 10%;
+        --foreground: 210 40% 95%;
+        --card: 222.2 84% 15%;
+        --card-foreground: 210 40% 95%;
+        --popover: 222.2 84% 10%;
+        --popover-foreground: 210 40% 95%;
+        --primary: 210 40% 95%;
+        --primary-foreground: 222.2 47.4% 15%;
+        --secondary: 217.2 32.6% 22.5%;
+        --secondary-foreground: 210 40% 95%;
+        --muted: 217.2 32.6% 22.5%;
+        --muted-foreground: 215 20.2% 65.1%;
+        --accent: 217.2 32.6% 22.5%;
+        --accent-foreground: 210 40% 95%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 95%;
+        --border: 217.2 32.6% 22.5%;
+        --input: 217.2 32.6% 22.5%;
+        --ring: 212.7 26.8% 83.9%;
+    }
+}
+
 html {
     color-scheme: light dark;
 }
 
 body {
-    @apply bg-gray-50 text-gray-950 dark:bg-gray-900 dark:text-gray-200;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
 }
